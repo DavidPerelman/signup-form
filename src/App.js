@@ -25,6 +25,8 @@ function App() {
       return setError(
         'the password you entered should contain 5 or more characters'
       );
+    } else if (signupInput.password !== signupInput.confirmPassword) {
+      return setError("the passwords don't match, Try again");
     }
   };
 

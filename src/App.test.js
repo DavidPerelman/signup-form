@@ -84,3 +84,31 @@ test('should show password error if password is less than 5 characters ', () => 
 
   expect(passwordErrorElementAgain).toBeInTheDocument();
 });
+
+test("should show confirm password error if passwords don't match", () => {
+  render(<App />);
+  const emailInputElement = screen.getByRole('textbox', { name: /email/i });
+  const passwordInputElement = screen.getByLabelText('Password');
+  const confirmPasswordInputElement =
+    screen.getByLabelText(/confirm password/i);
+
+  const confirmPasswordErrorElement = screen.queryByText(
+    /the passwords don't match, Try again/i
+  );
+  const submitBtnElement = screen.getByRole('button', { name: /submit/i });
+
+  userEvent.type(emailInputElement, 'selena@gmail.com');
+  userEvent.type(passwordInputElement, '12345');
+
+  expect(confirmPasswordErrorElement).not.toBeInTheDocument();
+
+  userEvent.type(confirmPasswordInputElement, '123456');
+
+  userEvent.click(submitBtnElement);
+
+  const confirmPasswordErrorElementAgain = screen.queryByText(
+    /the passwords don't match, Try again/i
+  );
+
+  expect(confirmPasswordErrorElementAgain).toBeInTheDocument();
+});
