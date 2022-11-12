@@ -1,7 +1,13 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
 
 function App() {
+  const [signupInput, setSignupInput] = useState({
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
+
   return (
     <div className='container my-5'>
       <form>
@@ -38,6 +44,7 @@ function App() {
             className='form-control'
           />
         </div>
+        <button type='submit'>Submit</button>
       </form>
     </div>
   );

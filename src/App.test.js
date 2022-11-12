@@ -31,17 +31,31 @@ test('should be able to type an email', () => {
   expect(emailInputElement.value).toBe('selena@gmail.com');
 });
 
-test('should be able to type an password', () => {
+test('should be able to type a password', () => {
   render(<App />);
   const passwordInputElement = screen.getByLabelText('Password');
   userEvent.type(passwordInputElement, '123456');
   expect(passwordInputElement.value).toBe('123456');
 });
 
-test('should be able to type an password', () => {
+test('should be able to type an confirm password', () => {
   render(<App />);
   const confirmPasswordInputElement =
     screen.getByLabelText(/confirm password/i);
   userEvent.type(confirmPasswordInputElement, '123456');
   expect(confirmPasswordInputElement.value).toBe('123456');
+});
+
+test('should show email error message on invalid email', () => {
+  render(<App />);
+  const emailErrorElement = screen.queryByText(
+    /the email you input is invalid/i
+  );
+  const emailInputElement = screen.getByRole('textbox', { name: /email/i });
+  const submitBtnElement = screen.getByRole('button', { name: /submit/i });
+
+  expect(emailErrorElement).not.toBeInTheDocument();
+  userEvent.type(emailInputElement, 'selenagmail.com');
+  userEvent.click(submitBtnElement);
+  expect(emailErrorElement).toBeInTheDocument();
 });
